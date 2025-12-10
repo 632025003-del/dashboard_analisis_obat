@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 
 # =========================
 #     CONFIG COLORFUL UI
@@ -66,7 +67,7 @@ st.markdown("""
 <div class="header-box">
     <div class="big-title">🌈 Colorful MedCheck – Analisis Jenis Obat</div>
     <div class="subtext">
-        Ketik nama obat dan biarkan sistem menganalisis jenisnya dengan tampilan cantik & penuh warna 😍💊
+        Ketik nama obat atau upload CSV obat untuk dianalisis dengan tampilan cantik & penuh warna 😍💊
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -117,32 +118,28 @@ peringatan = {
     "antihipertensi": "Jangan berhenti minum tiba-tiba.",
     "anti alergi": "Beberapa membuat mengantuk.",
     "antiseptik": "Hanya untuk luar tubuh.",
-    "obat lambung": "Hindari pemakaian >3 bulan tanpa dokter.",
-    "antidiabetik": "Hati-hati hipoglikemia."
+    "obat lambung": "Hindari pemakaian lebih dari 3 bulan.",
+    "antidiabetik": "Waspadai risiko hipoglikemia."
 }
 
 
-# ========= INPUT =========
+# ========= INPUT MANUAL OBAT =========
 st.markdown("## 💬 Ketik Nama Obat")
 nama_obat = st.text_input("Masukkan nama obat:", placeholder="cth: amoxicillin / paracetamol / cetirizine")
 
-
-# ========= ANALISIS =========
-if st.button("🎉 Analisis Jenis Obat"):
+if st.button("🎉 Analisis Nama Obat"):
     if not nama_obat:
         st.warning("Masukkan nama obat dulu ya 💖")
     else:
         name = nama_obat.lower().strip()
         kategori_ditemukan = None
 
-        # Cek dalam database
         for kategori, daftar in obat_db.items():
             if name in daftar:
                 kategori_ditemukan = kategori
                 break
 
         if kategori_ditemukan:
-            # ======== CARD WARNA WARNI =========
             col1, col2 = st.columns(2)
 
             with col1:
@@ -161,20 +158,49 @@ if st.button("🎉 Analisis Jenis Obat"):
                 </div>
                 """, unsafe_allow_html=True)
 
-            # Rekomendasi obat sejenis
-            st.markdown("### 🌸 Rekomendasi Obat Satu Kategori")
-            rekom = [o.title() for o in obat_db[kategori_ditemukan] if o != name]
-            st.write(", ".join(rekom))
-
         else:
-            st.error(f"Obat **{nama_obat}** belum tersedia di database 🌧")
-            st.info("Aku bisa tambahkan obat baru kalau kamu mau ✨")
+            st.error(f"Obat **{nama_obat}** tidak ditemukan 🌧")
+
+
+# ====================================================
+#        🌸 FITUR BARU: UPLOAD CSV OBAT (COLORFUL)
+# ====================================================
+
+st.markdown("## 📥 Upload CSV Obat (Optional)")
+
+csv = st.file_uploader("Upload file CSV (harus memiliki kolom 'nama_obat'):", type=["csv"])
+
+if csv:
+    df = pd.read_csv(csv)
+    st.success("CSV berhasil dimuat! Berikut datanya:")
+    st.dataframe(df, use_container_width=True)
+
+    if "nama_obat" not in df.columns:
+        st.error("CSV harus memiliki kolom **nama_obat** 🌸")
+    else:
+        st.markdown("### 🎨 Hasil Analisis Berdasarkan CSV")
+
+        df["kategori"] = df["nama_obat"].str.lower().apply(
+            lambda x: next((kat for kat, daftar in obat_db.items() if x in daftar), "tidak ditemukan")
+        )
+
+        st.dataframe(df, use_container_width=True)
+
+        # VISUALISASI COLORFUL
+        fig = px.histogram(
+            df,
+            x="kategori",
+            title="🌈 Distribusi Kategori Obat",
+            color="kategori",
+            color_discrete_sequence=px.colors.qualitative.Pastel
+        )
+        st.plotly_chart(fig, use_container_width=True)
 
 
 # ========= FOOTER =========
 st.markdown("""
 <div class="footer">
-    💖 Colorful MedCheck – Dashboard Aesthetic & Ceria  
+    💖 Colorful MedCheck – Dashboard Aesthetic, Ceria, dan Penuh Warna  
     <br> Dibuat khusus untuk kamu ✨
 </div>
 """, unsafe_allow_html=True)
