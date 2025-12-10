@@ -128,6 +128,7 @@ if file:
     )
     st.plotly_chart(fig, use_container_width=True)
 
+
 # ===== FOOTER =====
 st.markdown("""
 <br><center class="footer">
