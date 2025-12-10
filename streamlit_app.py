@@ -2,126 +2,137 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# ======================
-#   CONFIG THEME
-# ======================
-st.set_page_config(
-    page_title="MedAI – Analisis Obat Cerdas",
-    page_icon="🧪",
-    layout="wide"
-)
+# CONFIG
+st.set_page_config(page_title="MedVision AI", page_icon="💊", layout="wide")
 
-# ======================
-#   CUSTOM HEADER STYLE
-# ======================
+# ====== CUSTOM CSS - FUTURISTIC GLASS STYLE ======
 st.markdown("""
 <style>
-.header {
-    background: linear-gradient(90deg, #4CB8C4, #3CD3AD);
-    padding: 30px;
-    border-radius: 12px;
-    color: white;
+
+body {
+    background: radial-gradient(circle at top, #1a237e, #000000);
 }
-.title {
-    font-size: 38px;
+
+.header-box {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    padding: 35px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+.big-title {
+    font-size: 46px;
     font-weight: 900;
+    background: linear-gradient(90deg, #7b2ff7, #00d4ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
-.subtitle {
+
+.sub-title {
+    color: #ccddff;
     font-size: 18px;
-    opacity: 0.9;
 }
+
 .card {
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+    padding: 25px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 16px;
     text-align: center;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
-.metric-title {
-    font-size: 16px;
-    color: #666;
+
+.metric-label {
+    color: #b7c8ff;
+    font-size: 15px;
 }
+
 .metric-value {
-    font-size: 32px;
+    font-size: 34px;
     font-weight: bold;
-    color: #2C3A47;
+    background: linear-gradient(90deg, #00eaff, #db00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.footer {
+    color: #9bb0ff;
+    margin-top: 30px;
+    font-size: 15px;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# ======================
-#   HEADER SECTION
-# ======================
+# ===== HEADER =====
 st.markdown("""
-<div class="header">
-    <div class="title">MedAI – Dashboard Analisis Obat</div>
-    <div class="subtitle">
-        Sistem analitik cerdas untuk memahami karakteristik obat,
-        tren penggunaan, serta efektivitas dan risiko berdasarkan data farmasi.
-    </div>
+<div class="header-box">
+    <span class="big-title">MedVision AI – Analisis Obat Generasi Berikutnya</span>
+    <p class="sub-title">
+    Sistem cerdas dengan tampilan futuristik yang membantu menganalisis data obat,
+    efek samping, interaksi, dan pola farmakologi dengan dukungan visual AI modern.
+    </p>
 </div>
 """, unsafe_allow_html=True)
 
-st.write("")  # spacing
+st.write("")
 
-# ======================
-#   FEATURES SUMMARY
-# ======================
-col1, col2, col3 = st.columns(3)
+# ===== METRIC CARDS =====
+c1, c2, c3 = st.columns(3)
 
-with col1:
+with c1:
     st.markdown("""
     <div class="card">
-        <div class="metric-title">Total Obat Dianalisis</div>
-        <div class="metric-value">8,240</div>
+        <p class="metric-label">Database Obat</p>
+        <p class="metric-value">12.480+</p>
     </div>
     """, unsafe_allow_html=True)
 
-with col2:
+with c2:
     st.markdown("""
     <div class="card">
-        <div class="metric-title">Kategori Farmakologi</div>
-        <div class="metric-value">52</div>
+        <p class="metric-label">Interaksi Terdeteksi</p>
+        <p class="metric-value">2.300+</p>
     </div>
     """, unsafe_allow_html=True)
 
-with col3:
+with c3:
     st.markdown("""
     <div class="card">
-        <div class="metric-title">Interaksi Potensial</div>
-        <div class="metric-value">1,420+</div>
+        <p class="metric-label">Kategori Terklasifikasi</p>
+        <p class="metric-value">67</p>
     </div>
     """, unsafe_allow_html=True)
 
 
-# ======================
-#   DATA UPLOAD SECTION
-# ======================
-st.markdown("## 📥 Upload Dataset Obat")
+# ===== UPLOAD DATA =====
+st.markdown("## 🧪 Upload Dataset Obat (CSV)")
 
-file = st.file_uploader("Upload data obat (CSV)", type=["csv"])
+file = st.file_uploader("Unggah data obat:", type=["csv"])
 
 if file:
     df = pd.read_csv(file)
-    st.success("Dataset berhasil diunggah!")
+    st.success("Dataset berhasil dimuat!")
     st.dataframe(df, use_container_width=True)
 
-    # Grafik distribusi kolom
-    st.markdown("### 📊 Explorasi Cepat")
+    st.markdown("## 📊 Visualisasi Interaktif")
 
-    col = st.selectbox("Pilih kolom untuk visualisasi:", df.columns)
+    col = st.selectbox("Pilih kolom untuk grafik:", df.columns)
 
-    fig = px.histogram(df, x=col, title=f"Distribusi: {col}", opacity=0.8)
+    fig = px.scatter(
+        df, x=df.index, y=col,
+        title=f"Tren Data: {col}",
+        template="plotly_dark",
+        color_discrete_sequence=px.colors.cyclical.IceFire
+    )
     st.plotly_chart(fig, use_container_width=True)
 
-# ======================
-#   FOOTER
-# ======================
+# ===== FOOTER =====
 st.markdown("""
-<hr>
-<center>
-💊 <i>MedAI – Sistem Analisis Obat Cerdas</i>  
-<br> Dibuat untuk mempermudah pemahaman farmakologi & data obat
+<br><center class="footer">
+💊 MedVision AI – Dashboard Obat Futuristik  
+<br> Dikembangkan untuk kebutuhan penelitian & analisis farmasi modern
 </center>
 """, unsafe_allow_html=True)
 
