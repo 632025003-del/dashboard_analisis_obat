@@ -1,246 +1,180 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 
-# CONFIG
-st.set_page_config(page_title="MedVision AI", page_icon="💊", layout="wide")
-st.markdown("### 🧪 Koleksi Obat Variatif")
-colA, colB, colC, colD = st.columns(4)
+# =========================
+#     CONFIG COLORFUL UI
+# =========================
+st.set_page_config(page_title="Colorful Drug Analyzer", page_icon="💊", layout="wide")
 
-st.markdown("---")
-colF1, colF2 = st.columns([1,3])
-
-with colF1:
-    st.image("https://cdn-icons-png.flaticon.com/512/4329/4329503.png", width=100)
-
-with colF2:
-    st.caption("Dikembangkan oleh MedAI – Dashboard Analisis Obat Lucu & Informatif 💖")
-
-# ====== CUSTOM CSS - FUTURISTIC GLASS STYLE ======
+# ========== CUSTOM CSS COLORFUL ==========
 st.markdown("""
 <style>
 
 body {
-    background: radial-gradient(circle at top, #1a237e, #000000);
+    background: linear-gradient(135deg, #FFDEE9 0%, #B5FFFC 100%);
 }
 
 .header-box {
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(10px);
-    padding: 35px;
-    border-radius: 18px;
-    border: 1px solid rgba(255,255,255,0.2);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    background: linear-gradient(90deg, #FF9A9E, #FECFEF, #FFCBA4);
+    padding: 30px;
+    border-radius: 20px;
+    color: #4a4a4a;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
 }
 
 .big-title {
-    font-size: 46px;
+    font-size: 40px;
     font-weight: 900;
-    background: linear-gradient(90deg, #7b2ff7, #00d4ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #3F3F3F;
 }
 
-.sub-title {
-    color: #ccddff;
+.subtext {
     font-size: 18px;
+    color: #444;
 }
 
 .card {
-    padding: 25px;
-    background: rgba(255,255,255,0.07);
-    border-radius: 16px;
+    background: linear-gradient(135deg, #FFF6B7 0%, #F6416C 100%);
+    padding: 18px;
+    color: white;
+    border-radius: 18px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     text-align: center;
-    border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
 
-.metric-label {
-    color: #b7c8ff;
-    font-size: 15px;
-}
-
-.metric-value {
-    font-size: 34px;
-    font-weight: bold;
-    background: linear-gradient(90deg, #00eaff, #db00ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+.card2 {
+    background: linear-gradient(135deg, #A1C4FD 0%, #C2E9FB 100%);
+    padding: 18px;
+    border-radius: 18px;
+    color: #333;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 .footer {
-    color: #9bb0ff;
-    margin-top: 30px;
-    font-size: 15px;
+    text-align: center;
+    margin-top: 40px;
+    font-size: 14px;
+    color: #444;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# ===== HEADER =====
+
+# ========= HEADER COLORFUL =========
 st.markdown("""
 <div class="header-box">
-    <span class="big-title">MedVision AI – Analisis Obat Generasi Berikutnya</span>
-    <p class="sub-title">
-    Sistem cerdas dengan tampilan futuristik yang membantu menganalisis data obat,
-    efek samping, interaksi, dan pola farmakologi dengan dukungan visual AI modern.
-    </p>
+    <div class="big-title">🌈 Colorful MedCheck – Analisis Jenis Obat</div>
+    <div class="subtext">
+        Ketik nama obat dan biarkan sistem menganalisis jenisnya dengan tampilan cantik & penuh warna 😍💊
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
 st.write("")
 
-# ===== METRIC CARDS =====
-c1, c2, c3 = st.columns(3)
 
-with c1:
-    st.markdown("""
-    <div class="card">
-        <p class="metric-label">Database Obat</p>
-        <p class="metric-value">12.480+</p>
-    </div>
-    """, unsafe_allow_html=True)
+# ========= GAMBAR-GAMBAR CUTE =========
+colA, colB, colC, colD = st.columns(4)
 
-with c2:
-    st.markdown("""
-    <div class="card">
-        <p class="metric-label">Interaksi Terdeteksi</p>
-        <p class="metric-value">2.300+</p>
-    </div>
-    """, unsafe_allow_html=True)
+with colA:
+    st.image("https://cdn-icons-png.flaticon.com/512/4320/4320758.png", width=120)
 
-with c3:
-    st.markdown("""
-    <div class="card">
-        <p class="metric-label">Kategori Terklasifikasi</p>
-        <p class="metric-value">67</p>
-    </div>
-    """, unsafe_allow_html=True)
+with colB:
+    st.image("https://cdn-icons-png.flaticon.com/512/2965/2965567.png", width=120)
+
+with colC:
+    st.image("https://cdn-icons-png.flaticon.com/512/4320/4320748.png", width=120)
+
+with colD:
+    st.image("https://cdn-icons-png.flaticon.com/512/387/387561.png", width=120)
 
 
-# ===== UPLOAD DATA =====
-st.markdown("## 🧪 Upload Dataset Obat (CSV)")
-
-file = st.file_uploader("Unggah data obat:", type=["csv"])
-
-if file:
-    df = pd.read_csv(file)
-    st.success("Dataset berhasil dimuat!")
-    st.dataframe(df, use_container_width=True)
-
-    st.markdown("## 📊 Visualisasi Interaktif")
-
-    col = st.selectbox("Pilih kolom untuk grafik:", df.columns)
-
-    fig = px.scatter(
-        df, x=df.index, y=col,
-        title=f"Tren Data: {col}",
-        template="plotly_dark",
-        color_discrete_sequence=px.colors.cyclical.IceFire
-    )
-    st.plotly_chart(fig, use_container_width=True)
-
-
-# ===== FOOTER =====
-st.markdown("""
-<br><center class="footer">
-💊 MedVision AI – Dashboard Obat Futuristik  
-<br> Dikembangkan untuk kebutuhan penelitian & analisis farmasi modern
-</center>
-""", unsafe_allow_html=True)
-
-import streamlit as st
-
-# ===============================
-#    SETTING DASHBOARD
-# ===============================
-st.set_page_config(page_title="Analisis Jenis Obat", page_icon="💊", layout="wide")
-
-st.title("🔍 Analisis Jenis Obat Berdasarkan Nama Obat")
-st.write("Ketik nama obat, dan sistem akan otomatis mengidentifikasi jenis obatnya tanpa perlu upload CSV.")
-
-# ===============================
-#   MINI DATABASE OBAT
-# ===============================
+# ========= DATABASE JENIS OBAT =========
 obat_db = {
-    "antibiotik": ["amoxicillin", "ciprofloxacin", "cefixime", "clindamycin", "azithromycin", "doxycycline"],
-    "analgesik": ["paracetamol", "ibuprofen", "aspirin", "asam mefenamat", "naproxen"],
-    "antihipertensi": ["amlodipine", "captopril", "lisinopril", "losartan", "valsartan"],
-    "anti alergi": ["cetirizine", "loratadine", "fexofenadine", "diphenhydramine"],
-    "antiseptik": ["betadine", "povidone iodine", "alcohol 70", "chlorhexidine"],
-    "obat lambung": ["omeprazole", "lansoprazole", "antacid", "ranitidine"],
-    "antidiabetik": ["metformin", "glimepiride", "insulin", "acarbose"]
+    "antibiotik": ["amoxicillin", "ciprofloxacin", "cefixime", "doxycycline", "azithromycin"],
+    "analgesik": ["paracetamol", "ibuprofen", "aspirin", "naproxen"],
+    "antihipertensi": ["amlodipine", "captopril", "lisinopril"],
+    "anti alergi": ["cetirizine", "loratadine", "fexofenadine"],
+    "antiseptik": ["betadine", "chlorhexidine", "povidone iodine"],
+    "obat lambung": ["omeprazole", "lansoprazole", "antacid"],
+    "antidiabetik": ["metformin", "glimepiride", "insulin"]
 }
 
 deskripsi = {
-    "antibiotik": "Obat untuk mengatasi infeksi bakteri. Tidak efektif untuk virus.",
-    "analgesik": "Obat untuk meredakan nyeri dan menurunkan demam.",
-    "antihipertensi": "Obat untuk mengontrol dan menurunkan tekanan darah.",
-    "anti alergi": "Obat untuk meredakan gejala alergi seperti gatal, ruam, dan bersin.",
-    "antiseptik": "Obat untuk membunuh kuman pada permukaan kulit atau luka.",
-    "obat lambung": "Obat untuk mengatasi maag, asam lambung, dan GERD.",
-    "antidiabetik": "Obat untuk mengatur kadar gula darah."
+    "antibiotik": "Digunakan untuk mengatasi infeksi bakteri.",
+    "analgesik": "Pereda nyeri dan penurun demam.",
+    "antihipertensi": "Menurunkan tekanan darah.",
+    "anti alergi": "Meredakan gejala alergi seperti gatal & bersin.",
+    "antiseptik": "Membersihkan luka dan membunuh kuman.",
+    "obat lambung": "Mengatasi maag dan asam lambung.",
+    "antidiabetik": "Mengontrol gula darah penderita diabetes."
 }
 
 peringatan = {
-    "antibiotik": "Harus dihabiskan sesuai resep. Tidak boleh berhenti sebelum waktu.",
-    "analgesik": "Gunakan sesuai dosis. Hati-hati untuk penderita gangguan lambung.",
-    "antihipertensi": "Harus diminum rutin tiap hari.",
-    "anti alergi": "Beberapa jenis menyebabkan kantuk.",
-    "antiseptik": "Hanya untuk penggunaan luar. Hindari mata dan mulut.",
-    "obat lambung": "Pemakaian jangka panjang harus diawasi dokter.",
-    "antidiabetik": "Waspadai risiko hipoglikemia. Ikuti anjuran dokter."
+    "antibiotik": "Harus dihabiskan sesuai resep.",
+    "analgesik": "Hati-hati jika punya sakit maag.",
+    "antihipertensi": "Jangan berhenti minum tiba-tiba.",
+    "anti alergi": "Beberapa membuat mengantuk.",
+    "antiseptik": "Hanya untuk luar tubuh.",
+    "obat lambung": "Hindari pemakaian >3 bulan tanpa dokter.",
+    "antidiabetik": "Hati-hati hipoglikemia."
 }
 
-# ===============================
-#     INPUT NAMA OBAT
-# ===============================
-nama_obat = st.text_input("Masukkan nama obat:", placeholder="contoh: amoxicillin / paracetamol")
 
-# ===============================
-#        HASIL ANALISIS
-# ===============================
-if st.button("Analisis Obat"):
+# ========= INPUT =========
+st.markdown("## 💬 Ketik Nama Obat")
+nama_obat = st.text_input("Masukkan nama obat:", placeholder="cth: amoxicillin / paracetamol / cetirizine")
+
+
+# ========= ANALISIS =========
+if st.button("🎉 Analisis Jenis Obat"):
     if not nama_obat:
-        st.warning("Masukkan nama obat terlebih dahulu.")
+        st.warning("Masukkan nama obat dulu ya 💖")
     else:
-        nama = nama_obat.lower().strip()
-        hasil = None
+        name = nama_obat.lower().strip()
+        kategori_ditemukan = None
 
-        # CARI KATEGORI OBAT
+        # Cek dalam database
         for kategori, daftar in obat_db.items():
-            if nama in daftar:
-                hasil = kategori
+            if name in daftar:
+                kategori_ditemukan = kategori
                 break
 
-        # ====================
-        #  HASIL DITEMUKAN
-        # ====================
-        if hasil:
-            st.success(f"**{nama_obat.title()} termasuk kategori: {hasil.upper()}**")
+        if kategori_ditemukan:
+            # ======== CARD WARNA WARNI =========
+            col1, col2 = st.columns(2)
 
-            st.markdown("### 📘 Penjelasan")
-            st.write(deskripsi[hasil])
+            with col1:
+                st.markdown(f"""
+                <div class="card">
+                    <h3>{nama_obat.title()}</h3>
+                    <p><b>Kategori:</b> {kategori_ditemukan.title()}</p>
+                </div>
+                """, unsafe_allow_html=True)
 
-            st.markdown("### ⚠️ Peringatan")
-            st.write(peringatan[hasil])
+            with col2:
+                st.markdown(f"""
+                <div class="card2">
+                    <p><b>Penjelasan:</b><br>{deskripsi[kategori_ditemukan]}</p>
+                    <p><b>Peringatan:</b><br>{peringatan[kategori_ditemukan]}</p>
+                </div>
+                """, unsafe_allow_html=True)
 
-            st.markdown("### 💊 Contoh Obat Lain Satu Kategori")
-            st.write(", ".join([o.title() for o in obat_db[hasil] if o != nama]))
+            # Rekomendasi obat sejenis
+            st.markdown("### 🌸 Rekomendasi Obat Satu Kategori")
+            rekom = [o.title() for o in obat_db[kategori_ditemukan] if o != name]
+            st.write(", ".join(rekom))
 
-        # ====================
-        #    TIDAK DITEMUKAN
-        # ====================
         else:
-            st.error(f"Jenis obat untuk **{nama_obat}** tidak ditemukan.")
-            st.info("Kamu bisa menambahkan obat baru ke daftar jika perlu.")
+            st.error(f"Obat **{nama_obat}** belum tersedia di database 🌧")
+            st.info("Aku bisa tambahkan obat baru kalau kamu mau ✨")
 
-# ===============================
-#          FOOTER
-# ===============================
+
+# ========= FOOTER =========
 st.markdown("""
-<hr>
-<center>
-💊 Aplikasi Analisis Obat – Tidak perlu upload file | Cukup ketik nama obat  
-<br> Dibuat dengan sistem rule-based sederhana dan cepat
-</center>
+<div class="footer">
+    💖 Colorful MedCheck – Dashboard Aesthetic & Ceria  
+    <br> Dibuat khusus untuk kamu ✨
+</div>
 """, unsafe_allow_html=True)
