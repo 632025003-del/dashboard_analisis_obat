@@ -1,98 +1,129 @@
 import streamlit as st
+import pandas as pd
+import plotly.express as px
 
-st.set_page_config(page_title="Prediksi Obat", layout="wide")
+# ======================
+#   CONFIG THEME
+# ======================
+st.set_page_config(
+    page_title="MedAI – Analisis Obat Cerdas",
+    page_icon="🧪",
+    layout="wide"
+)
 
-# =======================
-# TAMBAHKAN CSS STYLE
-# =======================
+# ======================
+#   CUSTOM HEADER STYLE
+# ======================
 st.markdown("""
 <style>
-.big-title {
-    font-size: 42px;
-    font-weight: 800;
-    color: #2C3E50;
+.header {
+    background: linear-gradient(90deg, #4CB8C4, #3CD3AD);
+    padding: 30px;
+    border-radius: 12px;
+    color: white;
 }
-.subtext {
+.title {
+    font-size: 38px;
+    font-weight: 900;
+}
+.subtitle {
     font-size: 18px;
-    color: #555;
+    opacity: 0.9;
 }
 .card {
-    background-color: #FFFFFF;
     padding: 20px;
+    background-color: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+    text-align: center;
 }
-.stat-number {
-    font-size: 36px;
-    font-weight: 700;
-    color: #2C3E50;
+.metric-title {
+    font-size: 16px;
+    color: #666;
 }
-.stat-label {
-    color: #777;
-}
-.grow-tag {
-    background-color: #E8F8F5;
-    padding: 5px 10px;
-    border-radius: 10px;
-    color: #1ABC9C;
-    font-size: 14px;
+.metric-value {
+    font-size: 32px;
+    font-weight: bold;
+    color: #2C3A47;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# =======================
-# BAGIAN HEADER
-# =======================
-col1, col2 = st.columns([2, 1])
+# ======================
+#   HEADER SECTION
+# ======================
+st.markdown("""
+<div class="header">
+    <div class="title">MedAI – Dashboard Analisis Obat</div>
+    <div class="subtitle">
+        Sistem analitik cerdas untuk memahami karakteristik obat,
+        tren penggunaan, serta efektivitas dan risiko berdasarkan data farmasi.
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+st.write("")  # spacing
+
+# ======================
+#   FEATURES SUMMARY
+# ======================
+col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.markdown('<p class="big-title">Selamat Datang di Aplikasi Analisis Obat</p>', unsafe_allow_html=True)
     st.markdown("""
-    <p class="subtext">
-    Aplikasi ini menggunakan <b>Machine Learning</b> untuk menganalisis karakteristik obat,
-    efek samping, interaksi obat, serta memberikan prediksi klasifikasi obat otomatis.
-    Dengan teknologi AI, analisis obat menjadi lebih cepat dan akurat.
-    </p>
+    <div class="card">
+        <div class="metric-title">Total Obat Dianalisis</div>
+        <div class="metric-value">8,240</div>
+    </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("""
-    **Fitur Utama:**  
-    ✅ Analisis Kategori Obat  
-    ✅ Visualisasi Data Interaktif  
-    ✅ Rekomendasi AI  
-    ✅ Prediksi Otomatis  
-    """)
-
 with col2:
-    st.image("https://cdn-icons-png.flaticon.com/512/387/387561.png", width=200)
+    st.markdown("""
+    <div class="card">
+        <div class="metric-title">Kategori Farmakologi</div>
+        <div class="metric-value">52</div>
+    </div>
+    """, unsafe_allow_html=True)
 
-# =======================
-# STATISTIK GLOBAL STYLE
-# =======================
-st.markdown("## 📊 Statistik Obat Global")
+with col3:
+    st.markdown("""
+    <div class="card">
+        <div class="metric-title">Interaksi Potensial</div>
+        <div class="metric-value">1,420+</div>
+    </div>
+    """, unsafe_allow_html=True)
 
-c1, c2, c3 = st.columns(3)
 
-with c1:
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.markdown('<p class="stat-label">Jumlah Obat Teregistrasi</p>', unsafe_allow_html=True)
-    st.markdown('<p class="stat-number">120.000+</p>', unsafe_allow_html=True)
-    st.markdown('<p class="grow-tag">↑ Bertambah tiap tahun</p>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+# ======================
+#   DATA UPLOAD SECTION
+# ======================
+st.markdown("## 📥 Upload Dataset Obat")
 
-with c2:
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.markdown('<p class="stat-label">Kategori Obat</p>', unsafe_allow_html=True)
-    st.markdown('<p class="stat-number">35 Kategori</p>', unsafe_allow_html=True)
-    st.markdown('<p class="grow-tag">↑ 5 kategori baru</p>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+file = st.file_uploader("Upload data obat (CSV)", type=["csv"])
 
-with c3:
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.markdown('<p class="stat-label">Interaksi Obat</p>', unsafe_allow_html=True)
-    st.markdown('<p class="stat-number">10.500+</p>', unsafe_allow_html=True)
-    st.markdown('<p class="grow-tag">↑ Update reguler</p>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+if file:
+    df = pd.read_csv(file)
+    st.success("Dataset berhasil diunggah!")
+    st.dataframe(df, use_container_width=True)
+
+    # Grafik distribusi kolom
+    st.markdown("### 📊 Explorasi Cepat")
+
+    col = st.selectbox("Pilih kolom untuk visualisasi:", df.columns)
+
+    fig = px.histogram(df, x=col, title=f"Distribusi: {col}", opacity=0.8)
+    st.plotly_chart(fig, use_container_width=True)
+
+# ======================
+#   FOOTER
+# ======================
+st.markdown("""
+<hr>
+<center>
+💊 <i>MedAI – Sistem Analisis Obat Cerdas</i>  
+<br> Dibuat untuk mempermudah pemahaman farmakologi & data obat
+</center>
+""", unsafe_allow_html=True)
 
 import streamlit as st
 import pandas as pd
