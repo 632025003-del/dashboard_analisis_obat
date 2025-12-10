@@ -8,7 +8,21 @@ st.markdown("### 🧪 Koleksi Obat Variatif")
 colA, colB, colC, colD = st.columns(4)
 
 with colA:
-    st.image("https://cdn-icons-png.flaticon.com/512/2965/2965567.png", width=90)
+    st.image("st.markdown("### 🧪 Koleksi Obat Variatif")
+colA, colB, colC, colD = st.columns(4)
+
+with colA:
+    st.image("https://id.pngtree.com/freepng/original-hand-drawn-cartoon-medicine-capsule-elements_5769345.html", width=90)
+
+with colB:
+    st.image("https://cdn-icons-png.flaticon.com/512/4320/4320748.png", width=90)
+
+with colC:
+    st.image("https://cdn-icons-png.flaticon.com/512/4320/4320716.png", width=90)
+
+with colD:
+    st.image("https://cdn-icons-png.flaticon.com/512/4320/4320758.png", width=90)
+", width=90)
 
 with colB:
     st.image("https://cdn-icons-png.flaticon.com/512/4320/4320748.png", width=90)
