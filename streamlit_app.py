@@ -7,31 +7,14 @@ st.set_page_config(page_title="MedVision AI", page_icon="💊", layout="wide")
 st.markdown("### 🧪 Koleksi Obat Variatif")
 colA, colB, colC, colD = st.columns(4)
 
-with colA:
-    st.image("st.markdown("### 🧪 Koleksi Obat Variatif")
-colA, colB, colC, colD = st.columns(4)
+st.markdown("---")
+colF1, colF2 = st.columns([1,3])
 
-with colA:
-    st.image("https://id.pngtree.com/freepng/original-hand-drawn-cartoon-medicine-capsule-elements_5769345.html", width=90)
+with colF1:
+    st.image("https://cdn-icons-png.flaticon.com/512/4329/4329503.png", width=100)
 
-with colB:
-    st.image("https://cdn-icons-png.flaticon.com/512/4320/4320748.png", width=90)
-
-with colC:
-    st.image("https://cdn-icons-png.flaticon.com/512/4320/4320716.png", width=90)
-
-with colD:
-    st.image("https://cdn-icons-png.flaticon.com/512/4320/4320758.png", width=90)
-", width=90)
-
-with colB:
-    st.image("https://cdn-icons-png.flaticon.com/512/4320/4320748.png", width=90)
-
-with colC:
-    st.image("https://cdn-icons-png.flaticon.com/512/4320/4320716.png", width=90)
-
-with colD:
-    st.image("https://cdn-icons-png.flaticon.com/512/4320/4320758.png", width=90)
+with colF2:
+    st.caption("Dikembangkan oleh MedAI – Dashboard Analisis Obat Lucu & Informatif 💖")
 
 # ====== CUSTOM CSS - FUTURISTIC GLASS STYLE ======
 st.markdown("""
