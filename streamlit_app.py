@@ -65,9 +65,9 @@ body {
 # ========= HEADER COLORFUL =========
 st.markdown("""
 <div class="header-box">
-    <div class="big-title">🌈 Colorful MedCheck – Analisis Jenis Obat</div>
+    <div class="big-title">🌈 Colorful MedCheck – Analisis Jenis Obat dengan Sekali Tap </div>
     <div class="subtext">
-        Ketik nama obat atau upload CSV obat untuk dianalisis dengan tampilan cantik & penuh warna 😍💊
+        Ketik nama obat yang ingin ditanyakan atau upload CSV obat hasil analisis akan muncul dengan tampilan cantik & penuh warna 😍💊
     </div>
 </div>
 """, unsafe_allow_html=True)
